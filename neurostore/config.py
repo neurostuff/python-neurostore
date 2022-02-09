@@ -5,7 +5,7 @@ class Common():
     KEY_DIR=Path('~/.neurostore').expanduser()
     KEY_DIR.mkdir(exist_ok=True)
     REDIRECT_URI='http://127.0.0.1:5000/callback'
-    SCOPE=['profile', 'openid', 'email']
+    SCOPE=['profile', 'openid', 'email', 'offline_access']
 
 class Staging(Common):
     AUTH0_CLIENT_ID="qwYFu72aLngXIwSDpIoIRyw8fVl3yQVy"

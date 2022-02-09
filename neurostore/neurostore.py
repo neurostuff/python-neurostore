@@ -5,13 +5,14 @@ from .auth import open_login, generate_pkse
 
 class NeuroStore():
     def __init__(self):
-        self.oauth = OAuth2Session(ac.AUTH0_CLIENT_ID, redirect_uri=ac.REDIRECT_URI,
+        self.client = OAuth2Session(ac.AUTH0_CLIENT_ID, redirect_uri=ac.REDIRECT_URI,
                             scope=ac.SCOPE)
         
     def login(self):
+        """ Interactive browser based authentication """
         # Generate a PKSE verifier and challenge
         verifier, challenge = generate_pkse()
-        authorization_url, state = self.oauth.authorization_url(
+        authorization_url, state = self.client.authorization_url(
             f'{ac.AUTH0_BASE_URL}/authorize', 
             audience=ac.AUTH0_AUDIENCE, code_challenge=challenge.replace('=', ''), 
             code_challenge_method='S256')
@@ -19,7 +20,7 @@ class NeuroStore():
         authorization_code = open_login(authorization_url, state)
 
         # Fetch code
-        _ = self.oauth.fetch_token(
+        _ = self.client.fetch_token(
             f'{ac.AUTH0_BASE_URL}/oauth/token',
             audience=ac.AUTH0_CLIENT_ID,
             code_verifier=verifier,
